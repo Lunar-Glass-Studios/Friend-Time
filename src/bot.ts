@@ -3,6 +3,7 @@ import {
     Client,
     CommandInteraction,
     Constants,
+    ContextMenuInteraction,
     Guild,
     Interaction,
     Message,
@@ -17,6 +18,7 @@ import { createRequire } from 'node:module';
 import {
     ButtonHandler,
     CommandHandler,
+    ContextMenuHandler,
     GuildJoinHandler,
     GuildLeaveHandler,
     MessageHandler,
@@ -41,6 +43,7 @@ export class Bot {
         private messageHandler: MessageHandler,
         private commandHandler: CommandHandler,
         private buttonHandler: ButtonHandler,
+        private contextMenuHandler: ContextMenuHandler,
         private reactionHandler: ReactionHandler,
         private jobService: JobService
     ) {}
@@ -161,6 +164,12 @@ export class Bot {
                 await this.buttonHandler.process(intr, intr.message as Message);
             } catch (error) {
                 Logger.error(Logs.error.button, error);
+            }
+        } else if (intr instanceof ContextMenuInteraction) {
+            try {
+                await this.contextMenuHandler.process(intr);
+            } catch (error) {
+                Logger.error(Logs.error.contextMenu, error);
             }
         }
     }
