@@ -25,9 +25,9 @@ import { Database } from './database/database.js';
 import {
     ButtonHandler,
     CommandHandler,
-    ContextMenuHandler,
     GuildJoinHandler,
     GuildLeaveHandler,
+    MessageContextMenuHandler,
     MessageHandler,
     ReactionHandler,
     TriggerHandler,
@@ -184,7 +184,7 @@ async function start(): Promise<void> {
     let guildLeaveHandler = new GuildLeaveHandler();
     let commandHandler = new CommandHandler(commands);
     let buttonHandler = new ButtonHandler(buttons);
-    let contextMenuHandler = new ContextMenuHandler();
+    let messageContextMenuHandler = new MessageContextMenuHandler();
     let triggerHandler = new TriggerHandler(triggers);
     let messageHandler = new MessageHandler(triggerHandler);
     let reactionHandler = new ReactionHandler(reactions);
@@ -201,7 +201,7 @@ async function start(): Promise<void> {
         messageHandler,
         commandHandler,
         buttonHandler,
-        contextMenuHandler,
+        messageContextMenuHandler,
         reactionHandler,
         new JobService(jobs)
     );

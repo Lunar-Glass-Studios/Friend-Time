@@ -1,6 +1,6 @@
 export { ButtonHandler } from './button-handler.js';
 export { CommandHandler } from './command-handler.js';
-export { ContextMenuHandler } from './context-menu-handler.js';
+export { MessageContextMenuHandler } from './message-context-menu-handler.js';
 export { EventHandler } from './event-handler.js';
 export { GuildJoinHandler } from './guild-join-handler.js';
 export { GuildLeaveHandler } from './guild-leave-handler.js';

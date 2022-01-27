@@ -3,10 +3,10 @@ import {
     Client,
     CommandInteraction,
     Constants,
-    ContextMenuInteraction,
     Guild,
     Interaction,
     Message,
+    MessageContextMenuInteraction,
     MessageReaction,
     PartialMessageReaction,
     PartialUser,
@@ -18,9 +18,9 @@ import { createRequire } from 'node:module';
 import {
     ButtonHandler,
     CommandHandler,
-    ContextMenuHandler,
     GuildJoinHandler,
     GuildLeaveHandler,
+    MessageContextMenuHandler,
     MessageHandler,
     ReactionHandler,
 } from './events/index.js';
@@ -43,7 +43,7 @@ export class Bot {
         private messageHandler: MessageHandler,
         private commandHandler: CommandHandler,
         private buttonHandler: ButtonHandler,
-        private contextMenuHandler: ContextMenuHandler,
+        private messageContextMenuHandler: MessageContextMenuHandler,
         private reactionHandler: ReactionHandler,
         private jobService: JobService
     ) {}
@@ -165,9 +165,9 @@ export class Bot {
             } catch (error) {
                 Logger.error(Logs.error.button, error);
             }
-        } else if (intr instanceof ContextMenuInteraction) {
+        } else if (intr instanceof MessageContextMenuInteraction) {
             try {
-                await this.contextMenuHandler.process(intr);
+                await this.messageContextMenuHandler.process(intr);
             } catch (error) {
                 Logger.error(Logs.error.contextMenu, error);
             }
