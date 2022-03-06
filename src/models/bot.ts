@@ -23,14 +23,14 @@ import {
     MessageContextMenuHandler,
     MessageHandler,
     ReactionHandler,
-} from './events/index.js';
-import { JobService, Logger } from './services/index.js';
-import { PartialUtils } from './utils/index.js';
+} from '../events/index.js';
+import { JobService, Logger } from '../services/index.js';
+import { PartialUtils } from '../utils/index.js';
 
 const require = createRequire(import.meta.url);
-let Config = require('../config/config.json');
-let Debug = require('../config/debug.json');
-let Logs = require('../lang/logs.json');
+let Config = require('../../config/config.json');
+let Debug = require('../../config/debug.json');
+let Logs = require('../../lang/logs.json');
 
 export class Bot {
     private ready = false;

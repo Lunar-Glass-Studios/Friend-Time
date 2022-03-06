@@ -3,7 +3,8 @@ import { MessageRetriever } from 'discord.js-collector-utils';
 import { createRequire } from 'node:module';
 
 import { GuildBotData } from '../../database/entities/index.js';
-import { LangCode, TimeFormatOption, YesNo } from '../../models/enums/index.js';
+import { LangCode, TimeFormatOption } from '../../enums/index.js';
+import { YesNo } from '../../models/enum-helpers/index.js';
 import { EventData } from '../../models/internal-models.js';
 import { Lang } from '../../services/index.js';
 import {
@@ -134,7 +135,7 @@ export class BotTimeZoneSetting implements Setting<GuildBotData, string>, Confir
                     BOT: FormatUtils.userMention(target),
                 })
             );
-            await CollectorUtils.collectByMessage(
+            confirmed = await CollectorUtils.collectByMessage(
                 intr.channel,
                 intr.user,
                 this.confirmation(intr, data.lang()),

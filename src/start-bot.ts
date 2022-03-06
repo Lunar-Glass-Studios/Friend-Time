@@ -3,7 +3,6 @@ import { Routes } from 'discord-api-types/v9';
 import { Options } from 'discord.js';
 import { createRequire } from 'node:module';
 
-import { Bot } from './bot.js';
 import { Button } from './buttons/index.js';
 import {
     BotCommand,
@@ -34,6 +33,7 @@ import {
 } from './events/index.js';
 import { CustomClient } from './extensions/index.js';
 import { Job } from './jobs/index.js';
+import { Bot } from './models/bot.js';
 import { ConvertReaction, Reaction } from './reactions/index.js';
 import { JobService, Logger, ReminderService, TimeService } from './services/index.js';
 import { BotDateFormatSetting, BotTimeZoneSetting } from './settings/bot/index.js';
@@ -210,6 +210,9 @@ async function start(): Promise<void> {
     if (process.argv[2] === '--register') {
         await registerCommands(commands);
         process.exit();
+    } else if (process.argv[2] === '--clear') {
+        await clearCommands();
+        process.exit();
     }
 
     await bot.start();
@@ -236,6 +239,20 @@ async function registerCommands(commands: Command[]): Promise<void> {
     }
 
     Logger.info(Logs.info.commandsRegistered);
+}
+
+async function clearCommands(): Promise<void> {
+    Logger.info(Logs.info.commandsClearing);
+
+    try {
+        let rest = new REST({ version: '9' }).setToken(Config.client.token);
+        await rest.put(Routes.applicationCommands(Config.client.id), { body: [] });
+    } catch (error) {
+        Logger.error(Logs.error.commandsClearing, error);
+        return;
+    }
+
+    Logger.info(Logs.info.commandsCleared);
 }
 
 process.on('unhandledRejection', (reason, _promise) => {
