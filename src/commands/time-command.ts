@@ -32,6 +32,7 @@ export class TimeCommand implements Command {
         name: Lang.getCom('commands.time'),
         description: Lang.getRef('commandDescs.time', Lang.Default),
         dm_permission: true,
+        default_member_permissions: undefined,
         options: [
             {
                 name: Lang.getCom('subCommands.server'),
@@ -69,7 +70,6 @@ export class TimeCommand implements Command {
     public deferType = CommandDeferType.PUBLIC;
     public requireDev = false;
     public requireClientPerms: PermissionString[] = [];
-    public requireUserPerms: PermissionString[] = [];
 
     constructor(
         private guildTimeZoneSetting: GuildTimeZoneSetting,

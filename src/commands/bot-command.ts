@@ -2,7 +2,7 @@ import {
     ApplicationCommandOptionType,
     RESTPostAPIChatInputApplicationCommandsJSONBody,
 } from 'discord-api-types/v10';
-import { CommandInteraction, PermissionString } from 'discord.js';
+import { CommandInteraction, Permissions, PermissionString } from 'discord.js';
 import { createRequire } from 'node:module';
 
 import { GuildData } from '../database/entities/index.js';
@@ -20,6 +20,9 @@ export class BotCommand implements Command {
         name: Lang.getCom('commands.bot'),
         description: Lang.getRef('commandDescs.bot', Lang.Default),
         dm_permission: false,
+        default_member_permissions: Permissions.resolve([
+            Permissions.FLAGS.MANAGE_GUILD,
+        ]).toString(),
         options: [
             {
                 name: Lang.getCom('subCommands.list'),
@@ -86,7 +89,6 @@ export class BotCommand implements Command {
     public deferType = CommandDeferType.PUBLIC;
     public requireDev = false;
     public requireClientPerms: PermissionString[] = ['VIEW_CHANNEL'];
-    public requireUserPerms: PermissionString[] = ['MANAGE_GUILD'];
 
     constructor(private settingManager: SettingManager) {}
 

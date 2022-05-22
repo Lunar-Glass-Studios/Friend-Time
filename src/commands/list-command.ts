@@ -2,7 +2,7 @@ import {
     ApplicationCommandOptionType,
     RESTPostAPIChatInputApplicationCommandsJSONBody,
 } from 'discord-api-types/v10';
-import { CommandInteraction, PermissionString } from 'discord.js';
+import { CommandInteraction, Permissions, PermissionString } from 'discord.js';
 import { createRequire } from 'node:module';
 
 import { GuildData, GuildListItemData } from '../database/entities/index.js';
@@ -19,6 +19,9 @@ export class ListCommand implements Command {
         name: Lang.getCom('commands.list'),
         description: Lang.getRef('commandDescs.list', Lang.Default),
         dm_permission: false,
+        default_member_permissions: Permissions.resolve([
+            Permissions.FLAGS.MANAGE_GUILD,
+        ]).toString(),
         options: [
             {
                 name: Lang.getCom('subCommands.view'),
@@ -43,7 +46,6 @@ export class ListCommand implements Command {
     public deferType = CommandDeferType.PUBLIC;
     public requireDev = false;
     public requireClientPerms: PermissionString[] = [];
-    public requireUserPerms: PermissionString[] = ['MANAGE_GUILD'];
 
     public async execute(intr: CommandInteraction, data: EventData): Promise<void> {
         switch (intr.options.getSubcommand()) {

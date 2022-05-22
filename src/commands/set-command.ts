@@ -23,6 +23,7 @@ export class SetCommand implements Command {
         name: Lang.getCom('commands.set'),
         description: Lang.getRef('commandDescs.set', Lang.Default),
         dm_permission: true,
+        default_member_permissions: undefined,
         options: [
             {
                 name: Lang.getCom('subCommands.me'),
@@ -47,7 +48,6 @@ export class SetCommand implements Command {
     public deferType = CommandDeferType.PUBLIC;
     public requireDev = false;
     public requireClientPerms: PermissionString[] = ['VIEW_CHANNEL'];
-    public requireUserPerms: PermissionString[] = [];
 
     constructor(
         private userSettingManager: SettingManager,
@@ -111,12 +111,7 @@ export class SetCommand implements Command {
 
                 // Setup for bot
                 if (member.user.bot) {
-                    if (
-                        !(
-                            intr.memberPermissions.has(Permissions.FLAGS.MANAGE_GUILD) ||
-                            Debug.skip.checkPerms
-                        )
-                    ) {
+                    if (!intr.memberPermissions.has(Permissions.FLAGS.MANAGE_GUILD)) {
                         await InteractionUtils.send(
                             intr,
                             Lang.getEmbed('validationEmbeds.missingUserPerms', data.lang())
