@@ -16,7 +16,6 @@ import { Command, CommandDeferType } from './index.js';
 
 const require = createRequire(import.meta.url);
 let Config = require('../../config/config.json');
-let Debug = require('../../config/debug.json');
 
 export class SetCommand implements Command {
     public metadata: RESTPostAPIChatInputApplicationCommandsJSONBody = {
