@@ -1,4 +1,5 @@
 import { Chrono, en, ParsedComponents, ParsedResult } from 'chrono-node';
+import ENTimeUnitWithinFormatParser from 'chrono-node/src/locales/en/parsers/ENTimeUnitWithinFormatParser';
 import { createRequire } from 'node:module';
 
 import { DateFormatOption, LangCode, TimeFormatOption } from '../enums/index.js';
@@ -26,7 +27,11 @@ export class TimeService {
         // Create parser
         // TODO: May need to remove time ago and time later parsers, similar for others
         let littleEndian = DateFormat.Data[dateFormat].littleEndian;
-        let parser = new Chrono(en.createConfiguration(true, littleEndian));
+        let config = en.createConfiguration(true, littleEndian);
+        config.parsers = config.parsers.filter(
+            parser => !(parser instanceof ENTimeUnitWithinFormatParser)
+        );
+        let parser = new Chrono(config);
 
         // Preformat input for parser
         let lines = StringUtils.stripUrls(StringUtils.stripMarkdown(input))
